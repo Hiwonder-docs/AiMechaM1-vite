@@ -1,40 +1,80 @@
-# AiMechaM1 Documentation
+# AiMecha M1 Documentation
 
-This repository contains the AiMechaM1 VitePress documentation site. The
-documentation source files are Markdown files under `docs/docs/`.
+VitePress documentation for the AiMecha M1 robot. Edit the source files in
+`content/<version>/`. The scripts regenerate `docs/docs/`, `docs/_static/`,
+and `docs/index.md`; edits to these working copies are overwritten.
 
-## Local development
+## Advanced Kit
 
-Install dependencies and start the local documentation server:
+The Advanced Kit contains Kit Introduction, Quick Start, Teaching Cases with
+32 lessons, Deep Learning, and an Appendix. The sidebar lists the lessons in
+numerical order beneath Teaching Cases, and the course table links to their
+English filenames. The root and `docs/index.html` open Kit Introduction.
+
+Install dependencies with `npm ci`, then run:
 
 ```bash
-npm ci
-npm run docs:dev
+npm run dev:advanced-kit
 ```
 
-Build the production site and stage the artifacts:
+Open the local URL printed by VitePress. Production build:
 
 ```bash
-npm run docs:build
-npm run docs:stage-main
+npm run build:advanced-kit
 ```
 
-The staged production files are generated in `projects/AiMechaM1/en/latest/`.
+Generated files are staged to `projects/AiMechaM1/en/advanced-kit/`.
+The overview version is available with `npm run dev:latest` and
+`npm run build:latest`. Build both versions sequentially using
+`npm run build:all`. Standard and Ultimate Kit commands are reserved for
+future content.
 
-## GitHub Pages deployment
+To preview both staged versions together, run this from the repository root:
 
-The build artifacts under `projects/` are committed to the repository. Open
-**Settings > Pages**, select **Deploy from a branch**, and choose **main** and
-**/(root)**. Do not bind a custom domain.
+```bash
+python -m http.server 4173
+```
 
-The GitHub Pages direct URL is:
+Open http://localhost:4173/projects/AiMechaM1/en/advanced-kit/ or the root
+version selection page at http://localhost:4173/.
+
+Dev and build commands share a working directory. Stop a dev server before
+building or developing a different version.
+
+## Media and assembly guide
+
+Images, animations, and videos are included in the version's `_static/`
+directory. Lesson videos have playback controls. Production builds bundle
+referenced media and stage any files under `_static/pdf/` or
+`_static/shared/pdf/` so PDF previews can use their original paths.
+
+GIF animations have been compressed to animated WebP (maximum width 960 px,
+quality 80), retaining their playback duration and loop setting. To compress
+new GIF files and update their page references, run:
+
+```bash
+node scripts/compress_gifs.mjs advanced-kit
+npm run build:advanced-kit
+```
+
+The compression script backs up the original GIFs and modified source pages
+in the system temporary directory and prints the backup/report location.
+
+The M1 assembly PDF is absent from the supplied content. Quick Start and
+Lesson 1 display an availability note; the intended PDF embeds are retained
+in source comments. To enable the preview, supply
+`content/advanced-kit/_static/shared/pdf/Ai Mecha M1 English accessory assembly step diagram.pdf`
+and uncomment the `<pdf>` embed on both pages, then rebuild.
+
+## Deployment
+
+Publish the staged `projects/AiMechaM1/en/<version>/` directories alongside
+`index.html` and `.nojekyll` at the website root. The Advanced Kit entry is:
 
 ```text
-https://hiwonder-docs.github.io/AiMechaM1-vite/projects/AiMechaM1/en/latest/
+/projects/AiMechaM1/en/advanced-kit/docs/1.%20Kit%20Introduction.html
 ```
 
-The public-facing URL (via the baota Nginx reverse proxy) is:
-
-```text
-https://wiki-test.hiwonder.com/projects/AiMechaM1/en/latest/
-```
+For GitHub Pages branch deployment, use the repository root as the publishing
+source. Hosting under a repository URL prefix requires adjusting `DOCS_BASE`
+and the root landing page URLs to match that prefix.
