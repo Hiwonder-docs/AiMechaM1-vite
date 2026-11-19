@@ -112,6 +112,7 @@ export default {
     app.component('Gallery', Gallery)
     app.component('GalleryCard', GalleryCard)
     app.component('pdf', PdfViewer)
+    app.component('Pdf', PdfViewer)
     app.component('KitVersionGuide', KitVersionGuide)
   },
   Layout: () => h(Layout, null, { 'layout-bottom': () => h(LockedSidebarMarker) }),

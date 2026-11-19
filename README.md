@@ -60,11 +60,11 @@ npm run build:advanced-kit
 The compression script backs up the original GIFs and modified source pages
 in the system temporary directory and prints the backup/report location.
 
-The M1 assembly PDF is absent from the supplied content. Quick Start and
-Lesson 1 display an availability note; the intended PDF embeds are retained
-in source comments. To enable the preview, supply
-`content/advanced-kit/_static/shared/pdf/Ai Mecha M1 English accessory assembly step diagram.pdf`
-and uncomment the `<pdf>` embed on both pages, then rebuild.
+The M1 assembly PDF is stored at
+`content/advanced-kit/_static/shared/pdf/AiMecha M1 English accessory assembly step diagram.pdf`.
+Quick Start and Lesson 1 embed the same guide using the globally registered
+`<Pdf>` component (`<pdf>` is also supported). Use `../_static/shared/pdf/`
+from chapter pages and `../../_static/shared/pdf/` from nested lesson pages.
 
 ## Deployment
 
